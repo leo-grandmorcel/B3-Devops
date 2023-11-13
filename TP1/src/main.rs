@@ -8,7 +8,7 @@ use std::{
 fn main() {
     let port = match env::var("PING_LISTEN_PORT") {
         Ok(v) => v,
-        Err(_e) => "8080".to_string()
+        Err(_e) => "8069".to_string()
     };
     let listener = TcpListener::bind(format!("127.0.0.1:{}",port)).unwrap();
     println!("Listening on port {}", port);
