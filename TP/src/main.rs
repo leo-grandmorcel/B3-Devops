@@ -1,4 +1,5 @@
 use regex::Regex;
+use gethostname::gethostname;
 use std::{
     io::{prelude::*, BufReader},
     net::{TcpListener, TcpStream}, 
@@ -29,11 +30,14 @@ fn handle_connection(mut stream: TcpStream) {
         .map(|result| result.unwrap())
         .take_while(|line| !line.is_empty())
         .collect();
-    println!("REQUEST : {}", request[0]);
 
+    println!("Hostname: {:?}", gethostname());
     let ping_regex = Regex::new(r"^GET \/ping ").unwrap();
-
-    if ping_regex.is_match(&request[0]) {
+    if !request.is_empty(){
+        println!("REQUEST : {}", request[0]);
+    }
+    if !request.is_empty() && ping_regex.is_match(&request[0]) {
+        println!("REQUEST : {}", request[0]);
         let mut response_body : Vec<String> = Vec::new();
         for data in request[1..].into_iter() {
             let (key, value) = data.split_once(": ").unwrap();
